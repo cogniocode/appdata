@@ -7,13 +7,13 @@ pub struct Storage {
 }
 
 impl Storage {
-    fn new(name: &'static str) -> Storage {
+    pub fn new(name: &'static str) -> Storage {
         Storage {
             name: String::from(name)
         }
     }
 
-    fn app_dir(&self) -> std::io::Result<PathBuf> {
+    pub fn app_dir(&self) -> std::io::Result<PathBuf> {
         let mut buf = PathBuf::new();
         if cfg!(windows) {
             let env = std::env::var("APPDATA").unwrap();
@@ -29,7 +29,7 @@ impl Storage {
         Ok(buf)
     }
 
-    fn temp_dir(&self) -> std::io::Result<PathBuf> {
+    pub fn temp_dir(&self) -> std::io::Result<PathBuf> {
         let mut tmp = std::env::temp_dir();
         tmp.push(self.name.clone());
 
@@ -38,7 +38,7 @@ impl Storage {
         Ok(tmp)
     }
 
-    fn temp_file(&self, extension: Option<&'static str>) -> std::io::Result<File> {
+    pub fn temp_file(&self, extension: Option<&'static str>) -> std::io::Result<File> {
         let mut temp_dir = self.temp_dir()?;
 
         let id = base64::encode(Uuid::new_v4().to_string());
