@@ -19,7 +19,10 @@ impl Storage {
             let env = std::env::var("APPDATA").unwrap();
             buf.push(env);
             buf.push(self.name.clone());
-        } else if cfg!(unix) {
+        } else if cfg!(target_os = "macos") {
+            buf.push("~/Library/Application Support");
+            buf.push(self.name.clone());
+        } else if cfg!(linux) {
             buf.push("/var/lib");
             buf.push(self.name.clone());
         }
